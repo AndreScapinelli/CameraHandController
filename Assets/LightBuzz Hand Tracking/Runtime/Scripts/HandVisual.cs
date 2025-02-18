@@ -95,9 +95,21 @@ namespace LightBuzz.HandTracking
         /// </summary>
         public Vector2 GetPinchCenter()
         {
-            // Caso queira se prevenir (ex.: se não está em 2D), pode tratar aqui.
-            // Por simplicidade, retorna a média.
-            return (_thumbTipScreenPos + _indexTipScreenPos) * 0.5f;
+            // Exemplo: pinch no "centro" da tela => (0,0).
+            // Se X<0, é esquerda do centro. Se Y<0, é abaixo do centro.
+            // Precisamos mover => (Screen.width/2, Screen.height/2).
+
+            Vector2 center = (_thumbTipScreenPos + _indexTipScreenPos) * 0.5f;
+
+            // Se (0,0) é o centro, vamos somar offset:
+             center.x += Screen.width / 2f;
+             center.y += Screen.height / 2f;
+
+            Debug.Log(center);
+
+            // APLIQUE se de fato for esse o caso. Se já estiver “certo”, não aplique.
+
+            return center;
         }
 
         public bool Is2D
